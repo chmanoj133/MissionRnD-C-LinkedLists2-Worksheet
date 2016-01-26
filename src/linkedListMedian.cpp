@@ -19,6 +19,74 @@ struct node {
 	struct node *next;
 };
 
-int linkedListMedian(struct node *head) {
-	return -1;
+// TWO POINTER METHOD
+int linkedListMedian(struct node *head)
+{
+	struct node *i = head, *j = head;
+	int ans = 0;
+
+	if (i == NULL)
+		return -1;
+	else if (i->next == NULL)
+		return i->num;
+	
+	while (j != NULL)
+	{
+		if (j->next == NULL)
+		{
+			ans = i->num;
+			break;
+		}
+		else if (j->next->next == NULL)
+		{
+			ans = i->num + i->next->num;
+			ans = ans / 2;
+			break;
+		}
+		j = j->next->next;
+		i = i->next;
+	}
+	return ans;
 }
+
+/*
+// COUNT METHOD
+int linkedListMedian(struct node *head) 
+{
+	int count = 0, j, flag = 0;
+	int ans = 0;
+	bool is_even = true;
+	struct node *i;
+
+	if (head == NULL)
+		return -1;
+
+	for (i = head; i != NULL; i = i->next)
+		count++;
+
+	if (count % 2 == 1)
+		is_even = false;
+
+	for (i = head, j = 1; i != NULL; i = i->next, j++)
+	{
+		if (is_even && (j == count / 2 || j == (count / 2 + 1)))
+		{
+			ans = i->num + ans;
+			flag++;
+			if (flag == 2)
+				break;
+		}
+		if (!(is_even) && j == (count / 2) + 1)
+		{
+			ans = i->num;
+			break;
+		}
+	}
+
+	if (count % 2 == 0)
+		ans = ans / 2;
+
+	return ans;	
+}
+
+*/
